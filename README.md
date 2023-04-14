@@ -2,3 +2,5 @@
 ## A Solver for any math puzzles like the New York Times Digits
 
 It goes through all permutations of possible arithmetic operations with the numbers, and lists the potential solutions. Good for some occasional cheating fun.
+
+At this stage its solutions are written in Reverse Polish Notation but they are mathematically correct which is all that matters. In this world full of endless cycle of torture and despair, in our ephemeral lives of banal suffering, we find solace in mathematic rigidity, which is all that matters.

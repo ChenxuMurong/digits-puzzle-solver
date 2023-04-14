@@ -173,5 +173,5 @@ let evaluate = (arr) => {
 //         });
 //     });
 
-console.log(solver([3,5,9,20,23,25],388))
+console.log(solver([4,5,7,9,11,20],218))
 // console.log(evaluate([1,2,"+",49,"-",19,"-",30,49,"*","-"]));
