@@ -5,22 +5,22 @@ let solver = (arr, target) => {
      * returns the solution for the NYTimes Digits game
      * returns -1 in case of failure
      */
+    
     const sols = []
-    allSubSets(arr).forEach(
-        subset => {
-            allPerms(subset).forEach(perm => {
-                // console.log(element);
-                allOperations(perm).forEach(
-                    op => {
-                        let res = evaluate(op)
-                        if (res === target && Number.isInteger(res))
-                            sols.push(op)
-                        // you can't actually break out of forEach loop
-                        // TODO figure out a better looping mechanism that can be broken out of easily
-                    }
-                )
-            });
-        });
+    for (subset of allSubSets(arr)){
+        for (perm of allPerms(subset)){
+            // console.log(element);
+            for (op of allOperations(perm)){
+                let res = evaluate(op)
+                if (res === target && Number.isInteger(res))
+                    console.log(op);
+                    // sols.push(op)
+                // you can't actually break out of forEach loop
+                // TODO figure out a better looping mechanism that can be broken out of easily
+            }
+            
+        }
+    }
     return sols
 }
 
@@ -36,12 +36,11 @@ let allSubSets = (arr) => {
         for (let j = 0; j < ansLength; j++){
             const newList = [...ans[j], arr[i]]
             // console.log(newList);
-            ans.push(newList)
+            if (newList.length >= 2)
+                ans.push(newList)
         }
     }
-    return ans.filter(
-        subset => subset.length >= 2
-    )
+    return ans
 }
 
 let allPerms = (arr) => {
@@ -103,8 +102,9 @@ let allOperationsAux = (arr, idx, signsLeft) => {
     // start adding any of the four signs
     for (sign of ["+","-","*","/"]){
         // check eligibility
-        if (sign === "-" && arr[idx-2] instanceof Number && arr[idx-1] instanceof Number && arr[idx-2] <= arr[idx-1] || 
-            sign === "/" && arr[idx-2] instanceof Number && arr[idx-1] instanceof Number && arr[idx-2]%arr[idx-1] !== 0)
+        // INstanceof doesn't do anyting here
+        if (sign === "-" && typeof arr[idx-2] === "number" && typeof arr[idx-1] === "number" && arr[idx-2] <= arr[idx-1] || 
+            sign === "/" && typeof arr[idx-2] === "number" && typeof arr[idx-1] === "number" && arr[idx-2]%arr[idx-1] !== 0)
             continue
         
         arr.splice(idx, 0, sign) // insert at idx
