@@ -7,20 +7,35 @@ let solver = (arr, target) => {
      */
     
     const sols = []
-    for (subset of allSubSets(arr)){
-        for (perm of allPerms(subset)){
+    allSubSets(arr).forEach(
+    subset => {
+        allPerms(subset).forEach(perm => {
             // console.log(element);
-            for (op of allOperations(perm)){
-                let res = evaluate(op)
-                if (res === target && Number.isInteger(res))
-                    console.log(op);
-                    // sols.push(op)
-                // you can't actually break out of forEach loop
-                // TODO figure out a better looping mechanism that can be broken out of easily
-            }
+            allOperations(perm).forEach(
+                op => {
+                    let res = evaluate(op)
+                    if (res === target && Number.isInteger(res))
+                        console.log(op, res)
+                    // you can't actually break out of forEach loop
+                    // TODO figure out a better looping mechanism that can be broken out of easily
+                }
+            )
+        });
+    });
+    // for (subset of allSubSets(arr)){
+    //     for (perm of allPerms(subset)){
+    //         // console.log(element);
+    //         for (op of allOperations(perm)){
+    //             let res = evaluate(op)
+    //             if (res === target && Number.isInteger(res))
+    //                 console.log(op);
+    //                 // sols.push(op)
+    //             // you can't actually break out of forEach loop
+    //             // TODO figure out a better looping mechanism that can be broken out of easily
+    //         }
             
-        }
-    }
+    //     }
+    // }
     return sols
 }
 
@@ -96,6 +111,7 @@ let allOperationsAux = (arr, idx, signsLeft) => {
 
     // adding no sign here, just skips to the next idx
     if (idx < arr.length){
+        console.log(arr, id+1);
         ans.push(...allOperationsAux(arr, idx + 1, signsLeft))
     }
 
