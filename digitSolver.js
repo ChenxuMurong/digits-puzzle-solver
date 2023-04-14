@@ -1,3 +1,4 @@
+
 let solver = (arr, target) => {
     /**
      * given array of 6 numbers, 
@@ -14,7 +15,7 @@ let solver = (arr, target) => {
                     op => {
                         let res = evaluate(op)
                         if (res === target && Number.isInteger(res))
-                            console.log(op);
+                            console.log(postfixToRegular(op)); // SIDE EFFECT: prints out op as it goes
                             sols.push(op)
                         // you can't actually break out of forEach loop
                         // TODO figure out a better looping mechanism that can be broken out of easily
@@ -153,6 +154,44 @@ let evaluate = (arr) => {
 
 }
 
+let postfixToRegular = (postfix) => {
+    /**
+     * @param postfix array of numbers and strings
+     * that are ["+","-","*","/"]. E.g. [4,2,"+",9,"*"]
+     * @return regular String of a regular mathematic 
+     * expression. E.g. "(4+2)*9"
+     */
+    const stack = []
+    for (el of postfix){
+        if (typeof el === "string"){
+            if (stack.length < 2){
+                return ""
+            }
+            let operand2 = stack.pop()
+            let operand1 = stack.pop()
+            if (el === "+"){
+                stack.push(`(${operand1}+${operand2})`)
+            }
+            else if (el === "-"){
+                stack.push(`(${operand1}-${operand2})`)
+            }
+            else if (el === "*"){
+                stack.push(`${operand1}*${operand2}`)
+            }
+            else{
+                stack.push(`${operand1}/${operand2}`)
+            }
+        }
+
+        else{ 
+            stack.push((el).toString())
+        }
+    }
+    if (stack.length === 1)
+        return stack[0]
+    return "ERROR: stack size greater than 1 at the end"
+
+}
 
 // allOperations([1,2,3,4]).forEach(element => {
 //     console.log(element)
@@ -174,5 +213,5 @@ let evaluate = (arr) => {
 //         });
 //     });
 
-console.log(solver([4,5,7,9,11,20],218))
+console.log(solver([4,5,8,11,32,40],47))
 // console.log(evaluate([1,2,"+",49,"-",19,"-",30,49,"*","-"]));
