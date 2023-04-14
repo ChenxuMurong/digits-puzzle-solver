@@ -105,9 +105,15 @@ let allOperationsAux = (arr, idx, signsLeft) => {
     // start adding any of the four signs
     for (sign of ["+","-","*","/"]){
         // check eligibility
-        if (sign === "-" && arr[idx-2] instanceof Number && arr[idx-1] instanceof Number && arr[idx-2] <= arr[idx-1] || 
-            sign === "/" && arr[idx-2] instanceof Number && arr[idx-1] instanceof Number && arr[idx-2]%arr[idx-1] !== 0)
-            continue
+        if (sign === "-" && typeof arr[idx-2] === "number" 
+            && typeof arr[idx-1] === "number" 
+            && arr[idx-2] <= arr[idx-1] || 
+
+            sign === "/" && typeof arr[idx-2] === "number" 
+            && typeof arr[idx-1] === "number" 
+            && arr[idx-2]%arr[idx-1] !== 0){
+                continue
+            }
         
         arr.splice(idx, 0, sign) // insert at idx
         ans.push(...allOperationsAux(arr.slice(0,arr.length), idx + 1, signsLeft - 1))
@@ -213,5 +219,5 @@ let postfixToRegular = (postfix) => {
 //         });
 //     });
 
-console.log(solver([4,5,8,11,32,40],47))
+console.log(solver([40,4,5,8,11,32],247))
 // console.log(evaluate([1,2,"+",49,"-",19,"-",30,49,"*","-"]));
