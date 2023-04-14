@@ -14,6 +14,7 @@ let solver = (arr, target) => {
                     op => {
                         let res = evaluate(op)
                         if (res === target && Number.isInteger(res))
+                            console.log(op);
                             sols.push(op)
                         // you can't actually break out of forEach loop
                         // TODO figure out a better looping mechanism that can be broken out of easily
