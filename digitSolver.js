@@ -1,3 +1,4 @@
+const resultsUL = document.getElementById("results")
 
 let solver = (arr, target) => {
     /**
@@ -14,9 +15,18 @@ let solver = (arr, target) => {
                 allOperations(perm).forEach(
                     op => {
                         let res = evaluate(op)
-                        if (res === target && Number.isInteger(res))
-                            console.log(postfixToRegular(op)); // SIDE EFFECT: prints out op as it goes
-                            sols.push(op)
+                        if (res === target && Number.isInteger(res)){
+                            let regular = postfixToRegular(op)
+
+                            const newLi = document.createElement("li")
+                            newLi.textContent = regular
+                            resultsUL.appendChild(newLi)
+
+                            console.log(`${regular}`); // SIDE EFFECT: prints out op as it goes
+                            
+                        }
+                            // sols.push(op) 
+                            // pushing the solutions to sols makes it RUN OUT OF MEMORY!
                         // you can't actually break out of forEach loop
                         // TODO figure out a better looping mechanism that can be broken out of easily
                     }
@@ -176,15 +186,43 @@ let postfixToRegular = (postfix) => {
             let operand2 = stack.pop()
             let operand1 = stack.pop()
             if (el === "+"){
-                stack.push(`(${operand1}+${operand2})`)
+                stack.push(`${operand1}+${operand2}`)
             }
             else if (el === "-"){
-                stack.push(`(${operand1}-${operand2})`)
+                if (operand2.includes("+") || operand2.includes("-")){
+                    operand2 = `(${operand2})`
+                }
+                stack.push(`${operand1}-${operand2}`)
             }
             else if (el === "*"){
+                // adding parentheses if the operand
+                // is an expression. For this reason, 
+                // no number in the arr should be more than
+                // 2 digits long.
+                if (operand1.includes("+") || operand1.includes("-")){
+                    operand1 = `(${operand1})`
+                }
+                if (operand2.includes("+") || operand2.includes("-")){
+                    operand2 = `(${operand2})`
+                }
+                
                 stack.push(`${operand1}*${operand2}`)
             }
-            else{
+            else{ // DIVISION CASE
+                if (operand1.includes("+") 
+                 || operand1.includes("-")
+                 || operand1.includes("*")
+                 || operand1.includes("/")
+                 ){
+                    operand1 = `(${operand1})`
+                }
+                if (operand2.includes("+") 
+                 || operand2.includes("-")
+                 || operand2.includes("*")
+                 || operand2.includes("/")
+                 ){
+                    operand2 = `(${operand2})`
+                }
                 stack.push(`${operand1}/${operand2}`)
             }
         }
@@ -219,5 +257,40 @@ let postfixToRegular = (postfix) => {
 //         });
 //     });
 
-console.log(solver([40,4,5,8,11,32],247))
+let handleSubmitButton = () => {
+    // cleaning up
+    while (resultsUL.firstElementChild){
+        resultsUL.firstElementChild.remove()
+    }
+    document.getElementById("runtime-warning").textContent = ""
+    document.getElementById("errors").textContent = ""
+
+    // getting user input
+    const numArrText = document.getElementById('arr-input').value
+    const targetText = document.getElementById("target-input").value
+
+    const numArr = numArrText.split(",").map(el => Number.parseInt(el))
+    const target = Number.parseInt(targetText)
+
+    if (numArr.length > 6 || numArr.length < 1){
+        handleError("Array size must be 1 to 6")
+        return
+    }
+    // solving and appending li's
+    solver(numArr, target)
+    if (resultsUL.childElementCount === 0){
+        const noResultMessage = document.createElement("li")
+        noResultMessage.textContent = "No solutions found"
+        resultsUL.appendChild(noResultMessage)
+    }
+
+    return
+}
+
+let handleError = (message) => {
+    const errorDiv = document.getElementById("errors")
+    errorDiv.textContent = `ERROR: ${message}`
+}
+
+// console.log(solver([3,11,31,40,47],203))
 // console.log(evaluate([1,2,"+",49,"-",19,"-",30,49,"*","-"]));

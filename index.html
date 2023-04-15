@@ -4,13 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digits Puzzle Solver</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="digitSolver.js"></script>
+    <title>Arithmetic Puzzle Solver</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
 </head>
 
 <body>
+    <h1>Arithmetic Puzzle Solver</h1>
+    <p>
+        Enter the 6 numbers separated by commas: 
+        <input type="text" name="arr-input" id="arr-input" placeholder="e.g. 2,4,5,20,38,42">
+    </p>
+    <div>
+        Enter target:
+        <input type="number" name="target-input" id="target-input" placeholder="e.g. 382">
+        <button type="submit" onclick="handleSubmitButton()"> Solve </button>
+    </div>
     
+    <div class="errors" id="errors"></div>
+    <p id="runtime-warning">Due to the computation load it may take up to 1 minute for the results to show up</p>
+    <ol id="results"> </ol>
+    
+    
+    <script src="./digitSolver.js"></script>
 </body>
 
 </html>
