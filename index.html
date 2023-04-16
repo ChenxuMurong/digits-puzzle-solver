@@ -5,18 +5,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arithmetic Puzzle Solver</title>
-    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="style.css">
+    <!--linking google font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <h1>Arithmetic Puzzle Solver</h1>
     <p>
         Enter up to 6 numbers separated by commas: 
-        <input type="text" name="arr-input" id="arr-input" placeholder="e.g. 2,4,5,20,38,42">
+        <input type="text" name="arr-input" id="arr-input" value="2,4,5,20,38,42">
     </p>
     <div>
         Enter target:
-        <input type="number" name="target-input" id="target-input" placeholder="e.g. 382">
+        <input type="number" name="target-input" id="target-input" value="382">
+    </div>
+
+    <div>
+        <p>
+            Display at most <input type="number" name="solution-number-input" id="solution-number-input" value="20"> solutions
+        </p>
+    </div>
+
+    <div class="solve-button-wrapper">
         <button type="submit" onclick="handleSubmitButton()"> Solve </button>
     </div>
     

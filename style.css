@@ -1,23 +1,22 @@
+body{
+    text-align: center;
+    /* color: white;
+    background-color: black; */
+    font-family:'Times New Roman', Times, serif
+}
+
 h1 {
     display:block;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: "Roboto", Times, serif;
 }
 
 input{
     display:flex;
     margin-left: auto;
     margin-right: auto;
-}
-
-#arr-input{
-    width : 80%;
-}
-
-#target-input{
-    width: 40%;
 }
 
 button{

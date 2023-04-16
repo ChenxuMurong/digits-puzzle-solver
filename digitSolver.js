@@ -1,37 +1,62 @@
 const resultsUL = document.getElementById("results")
 
-let solver = (arr, target) => {
+let solver = (arr, target, solNum) => {
     /**
      * given array of 6 numbers, 
      * and a target int
      * returns the solution for the NYTimes Digits game
      * returns -1 in case of failure
      */
-    const sols = []
-    allSubSets(arr).forEach(subset => {
-            allPerms(subset).forEach(perm => {
-                // console.log(element);
-                for (op of allOperations(perm)){
-                        let res = evaluate(op)
-                        if (res === target && Number.isInteger(res)){
-                            let regular = postfixToRegular(op)
+    let success = 0
+    for (subset of allSubSets(arr)){
+        // each subset only gives at most 5 answers
+        let successForThisSubset = 0
+        for (perm of allPerms(subset)){
+            const operations = allOperations(perm)
+            for (op of operations){
 
-                            const newLi = document.createElement("li")
-                            newLi.textContent = regular
-                            resultsUL.appendChild(newLi)
+                let res = evaluate(op)
+                if (res === target && Number.isInteger(res)){
+                    let regular = postfixToRegular(op)
 
-                            console.log(`${regular}`); // SIDE EFFECT: prints out op as it goes
-                            
-                        }
-                            // sols.push(op) 
-                            // pushing the solutions to sols makes it RUN OUT OF MEMORY!
-                        // you can't actually break out of forEach loop
-                        // TODO figure out a better looping mechanism that can be broken out of easily
-                    }
+                    const newLi = document.createElement("li")
+                    newLi.textContent = regular
+                    resultsUL.appendChild(newLi)
+                    // console.log(`${regular}`); // SIDE EFFECT: prints out op as it goes
+                    success++
+                    successForThisSubset++
+                }
                 
-            });
-        });
-    return sols
+                if (success >= solNum || successForThisSubset > 0) break
+
+            }
+            if (success >= solNum || successForThisSubset > 0) break
+        }
+        if (success >= solNum) break
+
+                //////////
+                // for (op of operations){
+                //         let res = evaluate(op)
+                //         // forcing the HTML element to update each loop
+                //         if (res === target && Number.isInteger(res)){
+                //             let regular = postfixToRegular(op)
+
+                //             const newLi = document.createElement("li")
+                //             newLi.textContent = regular
+                //             resultsUL.appendChild(newLi)
+                //             Window.length
+                //             console.log(`${regular}`); // SIDE EFFECT: prints out op as it goes
+                            
+                //         }
+                //             // sols.push(op) 
+                //             // pushing the solutions to sols makes it RUN OUT OF MEMORY!
+                //         // you can't actually break out of forEach loop
+                //         // TODO figure out a better looping mechanism that can be broken out of easily
+                //     }
+                /////////
+                
+        }
+    return
 }
 
 let allSubSets = (arr) => {
@@ -260,7 +285,7 @@ let handleSubmitButton = () => {
     while (resultsUL.firstElementChild){
         resultsUL.firstElementChild.remove()
     }
-    document.getElementById("runtime-warning").textContent = "Solving..."
+    document.getElementById("runtime-warning").textContent = ""
     document.getElementById("errors").textContent = ""
     
     // getting user input
@@ -269,13 +294,17 @@ let handleSubmitButton = () => {
     
     const numArr = numArrText.split(",").map(el => Number.parseInt(el))
     const target = Number.parseInt(targetText)
+
+    const numSolText = document.getElementById("solution-number-input").value
+    const numSol = Number.parseInt(numSolText)
     
     if (numArr.length > 6 || numArr.length < 1){
-        handleError("Array size must be 1 to 6")
+        handleError("Array size must be between 1 and 6")
         return
     }
     // solving and appending li's
-    solver(numArr, target)
+
+    solver(shuffle(numArr), target, numSol)
     if (resultsUL.childElementCount === 0){
         const noResultMessage = document.createElement("li")
         noResultMessage.textContent = "No solutions found"
@@ -285,6 +314,28 @@ let handleSubmitButton = () => {
 
     return
 }
+
+let shuffle = array => {
+    /**
+     * Stolen from 
+     * https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+     */
+    let currentIndex = array.length,  randomIndex;
+  
+    // While there remain elements to shuffle.
+    while (currentIndex != 0) {
+  
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  
+    return array;
+  }
 
 let handleError = (message) => {
     const errorDiv = document.getElementById("errors")
