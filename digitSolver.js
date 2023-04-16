@@ -8,12 +8,10 @@ let solver = (arr, target) => {
      * returns -1 in case of failure
      */
     const sols = []
-    allSubSets(arr).forEach(
-        subset => {
+    allSubSets(arr).forEach(subset => {
             allPerms(subset).forEach(perm => {
                 // console.log(element);
-                allOperations(perm).forEach(
-                    op => {
+                for (op of allOperations(perm)){
                         let res = evaluate(op)
                         if (res === target && Number.isInteger(res)){
                             let regular = postfixToRegular(op)
@@ -30,7 +28,7 @@ let solver = (arr, target) => {
                         // you can't actually break out of forEach loop
                         // TODO figure out a better looping mechanism that can be broken out of easily
                     }
-                )
+                
             });
         });
     return sols
@@ -262,16 +260,16 @@ let handleSubmitButton = () => {
     while (resultsUL.firstElementChild){
         resultsUL.firstElementChild.remove()
     }
-    document.getElementById("runtime-warning").textContent = ""
+    document.getElementById("runtime-warning").textContent = "Solving..."
     document.getElementById("errors").textContent = ""
-
+    
     // getting user input
     const numArrText = document.getElementById('arr-input').value
     const targetText = document.getElementById("target-input").value
-
+    
     const numArr = numArrText.split(",").map(el => Number.parseInt(el))
     const target = Number.parseInt(targetText)
-
+    
     if (numArr.length > 6 || numArr.length < 1){
         handleError("Array size must be 1 to 6")
         return
@@ -283,6 +281,7 @@ let handleSubmitButton = () => {
         noResultMessage.textContent = "No solutions found"
         resultsUL.appendChild(noResultMessage)
     }
+    document.getElementById("runtime-warning").textContent = "Due to the computation load it may take up to 1 minute for the results to show up"
 
     return
 }
