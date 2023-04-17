@@ -5,8 +5,9 @@ It goes through all permutations of possible arithmetic operations with the numb
 
 At this stage its solutions are written in ~~Reverse Polish Notation regular mathematic notation with working parentheses and they are mathematically correct~~ may have parenthesization issues. The website has no CSS yet but it's got all the basic components up and running.
 
+Live at https://chenxumurong.github.io/digits-puzzle-solver/.
 
 ## *Ideas/Todos*
 - [x] Working GUI
-- [ ] Add CSS
-- [ ] Browser Extension
+- [x] Add CSS
+- [ ] Browser Extension?

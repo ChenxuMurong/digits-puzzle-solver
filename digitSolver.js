@@ -11,7 +11,7 @@ let solver = (arr, target, solNum) => {
     for (subset of allSubSets(arr)){
         // each subset only gives at most 5 answers
         let successForThisSubset = 0
-        for (perm of allPerms(subset)){
+        for (perm of shuffle(allPerms(subset))){
             const operations = allOperations(perm)
             for (op of operations){
 
@@ -22,7 +22,7 @@ let solver = (arr, target, solNum) => {
                     const newLi = document.createElement("li")
                     newLi.textContent = regular
                     resultsUL.appendChild(newLi)
-                    // console.log(`${regular}`); // SIDE EFFECT: prints out op as it goes
+
                     success++
                     successForThisSubset++
                 }
@@ -304,7 +304,7 @@ let handleSubmitButton = () => {
     }
     // solving and appending li's
 
-    solver(shuffle(numArr), target, numSol)
+    solver(numArr, target, numSol)
     if (resultsUL.childElementCount === 0){
         const noResultMessage = document.createElement("li")
         noResultMessage.textContent = "No solutions found"

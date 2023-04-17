@@ -14,29 +14,42 @@
 
 <body>
     <h1>Arithmetic Puzzle Solver</h1>
+    <div class="separater"></div>
     <p>
-        Enter up to 6 numbers separated by commas: 
-        <input type="text" name="arr-input" id="arr-input" value="2,4,5,20,38,42">
+        Enter up to 6 numbers separated by commas: <input type="text" name="arr-input" id="arr-input" value="2,4,5,20,38,42">
     </p>
-    <div>
+    <div class="separater"></div>
+    <div class="target-input-container">
         Enter target:
         <input type="number" name="target-input" id="target-input" value="382">
     </div>
-
+    <div class="separater"></div>
+    
     <div>
-        <p>
-            Display at most <input type="number" name="solution-number-input" id="solution-number-input" value="20"> solutions
-        </p>
-    </div>
 
+        Display at most <input type="number" name="solution-number-input" id="solution-number-input" value="4"> ways to add, subtract, multiply, or divide the numbers to get to the target
+
+    </div>
+    <div class="separater"></div>
+    
     <div class="solve-button-wrapper">
         <button type="submit" onclick="handleSubmitButton()"> Solve </button>
     </div>
+
     
     <div class="errors" id="errors"></div>
-    <p id="runtime-warning">Due to the computation load it may take up to 1 minute for the results to show up</p>
-    <ol id="results"> </ol>
+    <div class="runtime-warning-container">
+        <p id="runtime-warning">Due to the computation load it may take up to 1 minute for the result to show up</p>
+    </div>
     
+
+    <div class="results-container">
+        <ol id="results">
+            <li>*Solutions go here*</li>
+        </ol>
+    </div>  
+    
+    <div class="separater"></div>
     
     <script src="./digitSolver.js"></script>
 </body>
