@@ -8,29 +8,34 @@ let solver = (arr, target, solNum) => {
      * returns -1 in case of failure
      */
     let success = 0
-    for (subset of allSubSets(arr)){
-        // each subset only gives at most 5 answers
-        let successForThisSubset = 0
-        for (perm of shuffle(allPerms(subset))){
+    for (subset of shuffle(allSubSets(arr))){
+        for (perm of allPerms(subset)){
+            // each perm only gives at most 5 answers
+            // let successForThisPerm = 0
             const operations = allOperations(perm)
-            for (op of operations){
 
+            for (op of operations){
                 let res = evaluate(op)
                 if (res === target && Number.isInteger(res)){
                     let regular = postfixToRegular(op)
+
+                    const resultsOl = document.getElementById('results');
+                    const lastExp = resultsOl.lastElementChild;
+                    
+                    if (lastExp && lastExp.textContent == regular) continue
 
                     const newLi = document.createElement("li")
                     newLi.textContent = regular
                     resultsUL.appendChild(newLi)
 
                     success++
-                    successForThisSubset++
+                    // successForThisPerm++
                 }
                 
-                if (success >= solNum || successForThisSubset > 0) break
+                if (success >= solNum) break
 
             }
-            if (success >= solNum || successForThisSubset > 0) break
+            if (success >= solNum) break
         }
         if (success >= solNum) break
 
