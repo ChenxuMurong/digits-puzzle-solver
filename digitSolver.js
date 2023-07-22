@@ -314,8 +314,9 @@ let handleSubmitButton = () => {
         const noResultMessage = document.createElement("li")
         noResultMessage.textContent = "No solutions found"
         resultsUL.appendChild(noResultMessage)
+        document.getElementById("runtime-warning").textContent = "Due to the computation load it may take up to 1 minute for the results to show up"
     }
-    document.getElementById("runtime-warning").textContent = "Due to the computation load it may take up to 1 minute for the results to show up"
+    document.getElementById("runtime-warning").textContent = ""
 
     return
 }
